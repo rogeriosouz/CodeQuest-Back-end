@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+
+  <style>
+
+
+.shop-container * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+    /* ==========================================================================
+   LAYOUT GERAL DA LOJA & FILTROS (DESKTOP)
+   ========================================================================== */
+.shop-container {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+  max-width: 100%;
+  padding: 40px;
+
+}
+
+/* FILTRO SIDEBAR (ALARGADO PARA 320PX) */
+.product-filter {
+  width: 320px;
+  flex-shrink: 0; /* Garante que a barra não vá espremer em telas médias */
+  padding: 10px 20px 30px 0px;
+  position: sticky;
+  top: 40px;
+  border-right: 1px solid #b4b4b4cb;
+  background-color: #ffffff; /* Garante fundo sólido na transição mobile */
+}
+
+.filter-header {
+  display: flex;
+  align-items: start;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 35px;
+  min-height: 30px;
+}
+
+.filter-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #111111;
+  margin: 0;
+}
+
+/* BOTÕES DE CONTROLE DA GAVETA (OCULTOS POR PADRÃO NO DESKTOP) */
+.mobile-filter-trigger,
+.close-mobile-filters {
+  display: none;
+}
+
+.close-mobile-filters {
+  position: absolute;
+  top: -4px;
+  right: 0px;
+}
+
+/* BOTÃO LIMPAR TUDO */
+.clear-all-filters {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #111111;
+  background: none;
+  border: 1px solid #111111;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: none; /* Controlado via JS */
+  
+}
+
+.clear-all-filters:hover {
+  background-color: #111111;
+  color: #ffffff;
+}
+
+
+.filter-block {
+  margin-bottom: 30px;
+}
+
+.filter-block h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #a0a0a0;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* LINKS DO FILTRO (VISUAL MINIMALISTA COM DESLOCAMENTO) */
+.product-filter a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0px;
+  text-decoration: none;
+  color: #444444;
+  font-size: 14px;
+  font-weight: 300;
+  cursor: pointer !important;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+  position: relative;
+  text-transform: capitalize;
+}
+
+/* Efeito Hover: muda de cor e desloca um pouco para o lado */
+.product-filter a:hover {
+  color: var(--bt-color-button-bg, #7a1d2e);
+  padding-left: 5px;
+}
+
+/* FILTRO ATIVO: Desloca mais para o lado e ganha destaque */
+.product-filter a.active {
+  font-weight: 500;
+  color: var(--bt-color-button-bg, #7a1d2e) !important;
+  padding-left: 15px;
+  background: transparent !important;
+}
+
+/* Quadrado elegante na esquerda do item ativo */
+.product-filter a.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  background-color: var(--bt-color-button-bg, #7a1d2e);
+}
+
+/* ÍCONE DE REMOVER (X) NA DIREITA */
+.remove-filter-icon {
+  font-size: 10px;
+  margin-left: 8px;
+  opacity: 0.7;
+  font-weight: bold;
+  display: none;
+  transition: transform 0.2s ease;
+}
+
+.product-filter a.active .remove-filter-icon {
+  display: inline-block;
+}
+
+.product-filter a.active:hover .remove-filter-icon {
+  transform: scale(1.2);
+}
+
+/* Bloco de categorias com rolagem SEMPRE ativa */
+.filter-block.list-categories {
+  max-height: 240px; 
+  overflow-y: auto; 
+  padding-right: 8px; 
+  position: relative; 
+  scrollbar-width: thin; 
+  scrollbar-color: #e5e5e5 transparent;
+}
+
+/* Mantém o título fixo no topo da rolagem das categorias */
+.filter-block.list-categories h4 {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #ffffff;
+  margin-top: 0;
+  padding-top: 5px;
+  padding-bottom: 10px; 
+}
+
+/* Customização elegante da barra de rolagem interna (Chrome, Edge, Safari) */
+.filter-block.list-categories::-webkit-scrollbar {
+  width: 3px;
+}
+
+.filter-block.list-categories::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-block.list-categories::-webkit-scrollbar-thumb {
+  background-color: #e5e5e5;
+  border-radius: 10px;
+}
+
+.filter-block.list-categories::-webkit-scrollbar-thumb:hover {
+  background-color: var(--bt-color-button-bg, #7a1d2e);
+}
+
+/* ==========================================================================
+   LISTA DE PRODUTOS & GRID DO WOOCOMMERCE
+   ========================================================================== */
+.product-list {
+  flex: 1;
+  width: 100%;
+}
+
+.product-list.loading {
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.woocommerce ul.products,
+.product-list ul.products {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 30px !important;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ==========================================================================
+   CONTAINER NENHUM PRODUTO ENCONTRADO
+   ========================================================================== */
+.no-products-found-clean {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 20px;
+  width: 100%;
+  background: transparent;
+}
+
+.no-products-title-clean {
+  font-size: 20px;
+  font-weight: 400;
+  color: #111111;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 10px 0;
+}
+
+.no-products-text-clean {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #777777;
+  font-weight: 300;
+  margin: 0 0 24px 0;
+}
+
+.clear-empty-products {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #111111;
+  background: none;
+  border: none;
+  padding: 0 0 4px 0;
+  border-bottom: 1px solid #111111;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.clear-empty-products:hover {
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   ADAPTAÇÃO RESPONSIVA (TABLET & MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .shop-container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 15px;
+  }
+
+  .filter-block.list-categories {
+  max-height: 100%; 
+  overflow-y: auto; 
+  padding-right: 8px; 
+  position: relative; 
+  scrollbar-width: thin; 
+  scrollbar-color: #e5e5e5 transparent;
+}
+
+ /* Exibe o botão estruturado minimalista para disparar os filtros no mobile */
+  .mobile-filter-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px;
+    background-color: var(--bt-color-button-bg, #7a1d2e); /* Agora usa sua cor padrão */
+    color: #ffffff;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    transition: background 0.2s ease;
+  }
+  
+  .mobile-filter-trigger:hover {
+    background-color: #111111; /* Fica preto no hover */
+  }
+
+  /* Exibe o botão de fechar (X) no cabeçalho da gaveta lateral */
+  .close-mobile-filters {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #111111;
+    cursor: pointer;
+    order: 2; /* Mantém alinhado à direita no flex header */
+    padding: 5px;
+    line-height: 1;
+  }
+
+  .filter-header {
+    margin-bottom: 30px;
+    flex-direction: column;
+    
+  }
+  
+  .clear-all-filters {
+   margin-top: 10px;
+   width: 100%;
+   
+  }
+
+  /* RECONFIGURA A SIDEBAR PARA TRABALHAR COMO COMPONENTE DRAWER SLIDE-IN */
+  .product-filter {
+    position: fixed !important;
+    top: 0 !important;
+    left: -100%; /* Totalmente oculta à esquerda da janela */
+    width: 300px;
+    height: 100vh;
+    z-index: 99999; /* Sobrepõe menus e elementos fixos da loja */
+    padding: 25px 25px 40px 25px;
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.12);
+    border-right: none;
+    overflow-y: auto; /* Permite rolagem própria caso os blocos passem da altura do aparelho */
+    transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Transição fluida de arrasto */
+  }
+
+  /* Ativado dinamicamente pelo JavaScript */
+  .product-filter.open {
+    left: 0; /* Desliza trazendo os filtros para dentro do display */
+  }
+
+  /* Trava o scroll da página ao fundo com a gaveta aberta */
+  body.filter-open {
+    overflow: hidden;
+  }
+
+  /* Grid de produtos reorganizado para 2 colunas */
+  .woocommerce ul.products,
+  .product-list ul.products {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+
+  .no-products-found-clean {
+    padding: 60px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Reduz para 1 única coluna em dispositivos mobile estreitos */
+  .woocommerce ul.products,
+  .product-list ul.products {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .no-products-title-clean {
+    font-size: 18px;
+  }
+}
+  </style>
+
+</head>
+<body>
+  <div class="shop-container">
+
+  <!-- Botão visível apenas no Mobile para abrir a gaveta de filtros -->
+  <button class="mobile-filter-trigger" id="openMobileFilters">
+    <span>🎛️ Filtrar Produtos</span>
+  </button>
+
+  <!-- FILTRO SIDEBAR (No mobile vira Drawer/Gaveta) -->
+  <aside class="product-filter" id="productFilterSidebar">
+    <div class="filter-header">
+      
+
+        <h3>Filtrar</h3>
+        
+        <!-- Botão para fechar a gaveta no Mobile -->
+        <button class="close-mobile-filters" id="closeMobileFilters">✕</button>
+ 
+      
+        <button class="clear-all-filters" id="clearAllBtn">Limpar Tudo</button>
+      
+    </div>
+
+   
+    
+    <!-- Bloco de Categorias -->
+    <div class="filter-block list-categories">
+      <!-- O PHP injeta dinamicamente as categorias aqui -->
+
+
+        <a data-filter="categorias" data-value="11">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa22667">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa2234">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa33">Até R$50 <span class="remove-filter-icon">✕</span></a>
+    
+
+                <a data-filter="categorias" data-value="11">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa22667">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa2234">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa33">Até R$50 <span class="remove-filter-icon">✕</span></a>
+    
+
+
+                <a data-filter="categorias" data-value="11">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa22667">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa2234">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa33">Até R$50 <span class="remove-filter-icon">✕</span></a>
+    
+
+
+                <a data-filter="categorias" data-value="11">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa22667">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa2234">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa33">Até R$50 <span class="remove-filter-icon">✕</span></a>
+    
+
+                <a data-filter="categorias" data-value="11">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa22667">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa2234">Até R$50 <span class="remove-filter-icon">✕</span></a>
+             <a data-filter="categorias" data-value="0-50aa33">Até R$50 <span class="remove-filter-icon">✕</span></a>
+    
+    </div>
+
+    <!-- Bloco de Preço com seus links originais -->
+    <div class="filter-block">
+      <h4>Preço</h4>
+      <a data-filter="preco" data-value="0-50">Até R$50 <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="preco" data-value="50-100">R$50 - R$100 <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="preco" data-value="100-200">R$100 - R$200 <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="preco" data-value="200-350">R$200 - R$350 <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="preco" data-value="350-500">R$350 - R$500 <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="preco" data-value="500-999999">Acima de R$500 <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="preco" data-value="">Todos os Preços</a>
+    </div>
+
+    <!-- Bloco de Estoque -->
+    <div class="filter-block">
+      <h4>Estoque</h4>
+      <a data-filter="estoque" data-value="instock">Em estoque <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="estoque" data-value="outofstock">Fora de estoque <span class="remove-filter-icon">✕</span></a>
+      <a data-filter="estoque" data-value="">Todos</a>
+    </div>
+  </aside>
+
+  <!-- PRODUTOS -->
+  <main class="product-list">
+    [products tag="cacareco" columns="3" limit="12" paginate="true"]
+  </main>
+
+</div>
+
+<script>
+let isLoading = false;
+
+/* ====================================
+   ATIVA BOTÕES & CONTROLA COMPORTAMENTO
+==================================== */
+function setActiveFilters() {
+  const params = new URLSearchParams(window.location.search);
+  let hasActiveFilters = false;
+
+  // Controla as classes 'active' de todos os links (Categorias, Preço, Estoque)
+  document.querySelectorAll('.product-filter a').forEach(link => {
+    const type = link.dataset.filter;
+    const value = link.dataset.value;
+
+    if (type === 'categorias') {
+      const categorias = (params.get('categorias') || '').split(',');
+
+      if (categorias.includes(value)) {
+        link.classList.add('active');
+        hasActiveFilters = true;
+      } else {
+        link.classList.remove('active');
+      }
+      return;
+    }
+
+    if (value && params.get(type) === value) {
+      link.classList.add('active');
+      hasActiveFilters = true;
+    } else if (!value && !params.get(type) && type) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+
+  // Exibe ou esconde o botão global "Limpar Tudo"
+  const clearBtn = document.getElementById('clearAllBtn');
+  if (clearBtn) {
+    clearBtn.style.display = hasActiveFilters ? 'block' : 'none';
+  }
+}
+
+function checkNoProducts() {
+  const productList = document.querySelector(".product-list");
+  if (!productList) return;
+
+  const products = productList.querySelectorAll("li.product");
+  const noProducts =
+    productList.querySelector(".woocommerce-info") ||
+    productList.querySelector(".woocommerce-no-products-found");
+
+  if (products.length === 0 || noProducts) {
+    productList.innerHTML = `
+      <div class="no-products-found-clean">
+        <h2 class="no-products-title-clean">Nenhum produto encontrado</h2>
+        <p class="no-products-text-clean">
+          Não encontramos resultados para os filtros selecionados.
+        </p>
+        <button class="clear-empty-products">Limpar filtros</button>
+      </div>
+    `;
+
+    document.querySelector(".clear-empty-products")?.addEventListener("click", () => {
+      const clearBtn = document.getElementById("clearAllBtn");
+      if (clearBtn) clearBtn.click();
+    });
+  }
+}
+
+/* =========================
+   CARREGAR PRODUTOS VIA AJAX
+========================= */
+function loadProducts(url) {
+  document.querySelector('.product-list').classList.add('loading');
+
+  fetch(url)
+    .then(res => res.text())
+    .then(html => {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      const newProducts = doc.querySelector('.product-list');
+
+      if (newProducts) {
+        const productList = document.querySelector('.product-list');
+        productList.innerHTML = newProducts.innerHTML;
+        checkNoProducts();
+      }
+    })
+    .catch(error => {
+      console.error("Erro ao carregar produtos:", error);
+    })
+    .finally(() => {
+      isLoading = false;
+      document.querySelector('.product-list').classList.remove('loading');
+      setActiveFilters();
+    });
+}
+
+/* ====================================
+   INICIALIZAÇÃO DOS EVENTOS (DOM)
+==================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  setActiveFilters();
+  checkNoProducts();
+
+  // Evento para cliques em LINKS da sidebar (Filtros e Limpeza)
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.product-filter a');
+    if (!link) return;
+
+    e.preventDefault();
+    if (isLoading) return;
+
+    const type = link.dataset.filter;
+    const value = link.dataset.value;
+    const params = new URLSearchParams(window.location.search);
+
+    if (type === 'categorias') {
+      let categorias = (params.get('categorias') || '').split(',').filter(Boolean);
+
+      if (categorias.includes(value)) {
+        categorias = categorias.filter(c => c !== value);
+      } else {
+        categorias.push(value);
+      }
+
+      if (categorias.length) {
+        params.set('categorias', categorias.join(','));
+      } else {
+        params.delete('categorias');
+      }
+    } else {
+      if (link.classList.contains('active') && value) {
+        params.delete(type);
+      } else {
+        if (value) {
+          params.set(type, value);
+        } else {
+          params.delete(type);
+        }
+      }
+    }
+
+    isLoading = true;
+    const queryString = params.toString();
+    const url = window.location.pathname + (queryString ? '?' + queryString : '');
+
+    window.history.pushState({}, '', url);
+    loadProducts(url);
+  });
+
+  // Evento do Botão "Limpar Tudo" global
+  const clearBtn = document.getElementById('clearAllBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (isLoading) return;
+      isLoading = true;
+
+      const url = window.location.pathname;
+      window.history.pushState({}, '', url);
+      loadProducts(url);
+    });
+  }
+
+  // --- CONTROLE DE FILTROS RESPONSIVOS (MOBILE DRAWER) ---
+  const sidebar = document.getElementById('productFilterSidebar');
+  const openBtn = document.getElementById('openMobileFilters');
+  const closeBtn = document.getElementById('closeMobileFilters');
+
+  if (openBtn && sidebar) {
+    openBtn.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      document.body.classList.add('filter-open');
+    });
+  }
+
+  if (closeBtn && sidebar) {
+    closeBtn.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      document.body.classList.remove('filter-open');
+    });
+  }
+
+  // Fecha a gaveta automaticamente após selecionar qualquer filtro no mobile
+  document.addEventListener('click', (e) => {
+    if (sidebar && sidebar.classList.contains('open')) {
+      if (e.target.closest('.product-filter a') || e.target.id === 'clearAllBtn') {
+        setTimeout(() => {
+          sidebar.classList.remove('open');
+          document.body.classList.remove('filter-open');
+        }, 350);
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

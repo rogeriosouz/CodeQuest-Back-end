@@ -1,0 +1,184 @@
+{
+   "id": "c3b1403e-4dd5-415b-bb59-062071d2e1e5",
+   "prevId": "d24ee528-2c89-4bde-939e-f62673fcc96b",
+   "version": "7",
+   "dialect": "postgresql",
+   "tables": {
+      "public.users": {
+         "name": "users",
+         "schema": "",
+         "columns": {
+            "id": {
+               "name": "id",
+               "type": "uuid",
+               "primaryKey": true,
+               "notNull": true,
+               "default": "gen_random_uuid()"
+            },
+            "name": {
+               "name": "name",
+               "type": "varchar(255)",
+               "primaryKey": false,
+               "notNull": true
+            },
+            "email": {
+               "name": "email",
+               "type": "varchar(255)",
+               "primaryKey": false,
+               "notNull": true
+            },
+            "password_hash": {
+               "name": "password_hash",
+               "type": "varchar(255)",
+               "primaryKey": false,
+               "notNull": true
+            },
+            "display_name": {
+               "name": "display_name",
+               "type": "varchar(255)",
+               "primaryKey": false,
+               "notNull": false
+            },
+            "avatar_url": {
+               "name": "avatar_url",
+               "type": "text",
+               "primaryKey": false,
+               "notNull": false
+            },
+            "bio": {
+               "name": "bio",
+               "type": "text",
+               "primaryKey": false,
+               "notNull": false
+            },
+            "xp": {
+               "name": "xp",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "level": {
+               "name": "level",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 1
+            },
+            "rank_points": {
+               "name": "rank_points",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "challenges_completed": {
+               "name": "challenges_completed",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "challenges_failed": {
+               "name": "challenges_failed",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "wins": {
+               "name": "wins",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "losses": {
+               "name": "losses",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "draws": {
+               "name": "draws",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "streak_days": {
+               "name": "streak_days",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "last_active_at": {
+               "name": "last_active_at",
+               "type": "timestamp",
+               "primaryKey": false,
+               "notNull": false
+            },
+            "friends_count": {
+               "name": "friends_count",
+               "type": "integer",
+               "primaryKey": false,
+               "notNull": true,
+               "default": 0
+            },
+            "is_premium": {
+               "name": "is_premium",
+               "type": "boolean",
+               "primaryKey": false,
+               "notNull": true,
+               "default": false
+            },
+            "premium_until": {
+               "name": "premium_until",
+               "type": "timestamp",
+               "primaryKey": false,
+               "notNull": false
+            },
+            "created_at": {
+               "name": "created_at",
+               "type": "timestamp",
+               "primaryKey": false,
+               "notNull": true,
+               "default": "now()"
+            },
+            "updated_at": {
+               "name": "updated_at",
+               "type": "timestamp",
+               "primaryKey": false,
+               "notNull": true,
+               "default": "now()"
+            }
+         },
+         "indexes": {},
+         "foreignKeys": {},
+         "compositePrimaryKeys": {},
+         "uniqueConstraints": {
+            "users_email_unique": {
+               "name": "users_email_unique",
+               "nullsNotDistinct": false,
+               "columns": ["email"]
+            }
+         },
+         "policies": {},
+         "checkConstraints": {},
+         "isRLSEnabled": false
+      }
+   },
+   "enums": {},
+   "schemas": {},
+   "sequences": {},
+   "roles": {},
+   "policies": {},
+   "views": {},
+   "_meta": {
+      "columns": {},
+      "schemas": {},
+      "tables": {}
+   }
+}

@@ -1,0 +1,52 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+.next/
+out/
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+.npm/
+.eslintcache
+*.tsbuildinfo
+
+# Testing
+coverage/
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Docker
+docker-compose.override.yml
+
+# Prisma
+# prisma/*.db
+# prisma/*.db-journal
+
+# Drizzle
+drizzle-meta/

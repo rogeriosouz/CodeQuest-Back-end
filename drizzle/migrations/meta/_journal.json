@@ -1,0 +1,188 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1774879959238,
+      "tag": "0000_clammy_human_robot",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774962444507,
+      "tag": "0001_mean_starjammers",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775048898951,
+      "tag": "0002_sad_red_ghost",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1775339329710,
+      "tag": "0003_lumpy_ben_urich",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1775339604846,
+      "tag": "0004_broad_puck",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1775339750858,
+      "tag": "0005_bitter_black_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1775339888639,
+      "tag": "0006_steep_zaran",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1775339926573,
+      "tag": "0007_stale_harpoon",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1775669108093,
+      "tag": "0008_striped_gauntlet",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1775837229211,
+      "tag": "0009_huge_captain_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1780638179541,
+      "tag": "0010_sturdy_randall_flagg",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1780640267482,
+      "tag": "0011_high_magdalene",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1780640815608,
+      "tag": "0012_bright_leper_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1780642104576,
+      "tag": "0013_complete_living_mummy",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1780642184217,
+      "tag": "0014_damp_vance_astro",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1780642275117,
+      "tag": "0015_ordinary_timeslip",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1781439840980,
+      "tag": "0016_petite_multiple_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1781441171069,
+      "tag": "0017_slim_lucky_pierre",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1781442150960,
+      "tag": "0018_charming_wolf_cub",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1781704453876,
+      "tag": "0019_melted_mattie_franklin",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1781705069584,
+      "tag": "0020_lucky_cyclops",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1782421766422,
+      "tag": "0021_bizarre_hulk",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1782422142543,
+      "tag": "0022_youthful_gravity",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1786807192573,
+      "tag": "0023_sudden_swordsman",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1786839381136,
+      "tag": "0024_stale_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1787595966420,
+      "tag": "0025_add_admin_to_users",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  codequest_db:
+    image: bitnami/postgresql:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "5432:5432"
+  redis_auth_back:
+    image: redis:latest
+    container_name: mod_shop_redis
+    command: >
+      --requirepass ${REDIS_PASSWORD}
+    restart: always
+    ports:
+      - "6379:6379"

@@ -1,0 +1,1 @@
+ALTER TABLE "duels" ADD COLUMN "expired_at" timestamp;

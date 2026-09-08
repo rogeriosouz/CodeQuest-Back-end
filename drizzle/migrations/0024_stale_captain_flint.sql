@@ -1,0 +1,2 @@
+ALTER TABLE "duels" ADD COLUMN "challenges_completed_sender_id" jsonb DEFAULT '[]'::jsonb;--> statement-breakpoint
+ALTER TABLE "duels" ADD COLUMN "challenges_completed_receiver_id" jsonb DEFAULT '[]'::jsonb;

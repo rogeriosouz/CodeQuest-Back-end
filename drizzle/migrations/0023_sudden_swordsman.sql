@@ -1,0 +1,1 @@
+ALTER TABLE "duels" ADD COLUMN "start_at" timestamp;

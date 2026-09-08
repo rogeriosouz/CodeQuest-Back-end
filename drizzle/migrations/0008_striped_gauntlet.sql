@@ -1,0 +1,1 @@
+ALTER TABLE "user_track_progress" ADD COLUMN "challenges_completed" jsonb DEFAULT '[]'::jsonb;

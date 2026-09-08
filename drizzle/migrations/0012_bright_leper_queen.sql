@@ -1,0 +1,1 @@
+ALTER TABLE "challenges" ADD COLUMN "language" varchar(255);

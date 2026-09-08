@@ -1,0 +1,1 @@
+ALTER TABLE "challenges" RENAME COLUMN "languageCode" TO "language_code";

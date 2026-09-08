@@ -1,0 +1,328 @@
+### =========================
+### Auth
+### =========================
+
+### AUTH - Registro
+POST http://localhost:3333/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Rogério",
+    "email": "rogerio@example.com",
+    "password": "12345678",
+    "confirmPassword": "12345678"
+}
+
+### AUTH - Signin
+POST http://localhost:3333/auth/signin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "rogerio@gmail.com",
+    "password": "12345678"
+}
+
+### AUTH - Forgot Password
+POST http://localhost:3333/auth/forgot-password HTTP/1.1
+content-type: application/json
+
+{
+    "email": "rogerio@gmail.com"
+}
+
+### AUTH - Recovery Password
+POST http://localhost:3333/auth/recovery-password HTTP/1.1
+content-type: application/json
+
+{
+    "token": "<token>",
+    "newPassword": "12345678",
+    "confirmNewPassword": "12345678"
+}
+
+### Tokens (variáveis)
+@refreshToken = 9265cf515df35778b6b4b48f7fffa4e566e9ff206a57b3af5024552060ba752f6d9f6ac9b729411b516cf0eafd8b3e58f0ef2a691dd949c709c5b683e6d59489.Bw8v9ozhO1gel53TCY5KINkFWEku8%2FHCjX3Ee4QoacU
+@accessToken =  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiJmNzlkN2NkNi0xNjE0LTQ1OTUtYWM4YS0zNWJmZDUzODU2MDEiLCJuYW1lIjoicm9nZXJpbyIsImVtYWlsIjoicm9nZXJpb0BnbWFpbC5jb20ifSwiaWF0IjoxNzg3NTk5Nzg3LCJleHAiOjE3ODc2MDAzODd9.0ROC7PtrRs-h7QzMAj-pbPEfgZhaTSrk5sY316GOyOQ
+
+
+
+
+### =========================
+### PROFILE and friends
+### =========================
+
+### PROFILE - Atualizar usuário
+PUT http://localhost:3333/profile HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "name": "",
+    "displayName": "",
+    "bio": ""
+}
+
+### USERS - Buscar usuário por displayName
+GET http://localhost:3333/user/rogerio HTTP/1.1
+content-type: application/json
+
+
+### FRIENDS list all friends
+GET http://localhost:3333/friends HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+
+### FRIENDS list request friend
+GET http://localhost:3333/request-friend HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+### FRIENDS request friend
+POST http://localhost:3333/request-friend HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "friendId": "0296eaf6-8e87-4690-a9b9-1cab9bb28bf0"
+}
+
+
+### FRIENDS refuse request friend
+POST http://localhost:3333/refuse-request-friend HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "requestFriendId": "918884ae-173d-40b7-a632-729b7d45e8df"
+}
+
+
+### FRIENDS accept request friend
+POST http://localhost:3333/accept-request-friend HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "requestFriendId": "b393eed9-57f6-497e-918c-a679a36565d2"
+}
+
+
+### =========================
+### TRACKS / CHALLENGES
+### =========================
+
+### ADMIN - Criar TRACK com CHALLENGES
+POST http://localhost:3333/admin/tracks HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "name": "Fundamentos de JavaScript",
+    "slug": "fundamentos-javascript",
+    "description": "Aprenda os fundamentos da linguagem JavaScript.",
+    "icon": "javascript",
+    "color": "#F7DF1E",
+    "difficulty": "beginner",
+    "language": "javascript",
+    "isActive": true,
+    "challenges": [
+        {
+            "name": "Qual palavra declara uma constante?",
+            "slug": "declarar-constante-javascript",
+            "description": "Escolha a palavra-chave correta para declarar uma constante.",
+            "points": 10,
+            "difficulty": "easy",
+            "type": "multiple-choice",
+            "isCode": false,
+            "tips": ["A constante não pode receber outro valor depois de criada."],
+            "alternatives": [
+                { "text": "var", "isCorrect": false },
+                { "text": "let", "isCorrect": false },
+                { "text": "const", "isCorrect": true },
+                { "text": "static", "isCorrect": false }
+            ],
+            "isActive": true
+        },
+        {
+            "name": "Criar função de soma",
+            "slug": "criar-funcao-soma",
+            "description": "Implemente uma função que some dois números.",
+            "points": 20,
+            "difficulty": "easy",
+            "type": "code",
+            "isCode": true,
+            "tips": ["Use o operador + para somar os argumentos."],
+            "alternatives": [],
+            "code": "function sum(a, b) {\n  return a + b;\n}",
+            "language": "javascript",
+            "isActive": true,
+            "codeChallenge": {
+                "languageCode": "javascript",
+                "functionName": "sum",
+                "testCases": [
+                    { "input": [2, 3], "expectedOutput": 5, "isHidden": false },
+                    { "input": [-1, 4], "expectedOutput": 3, "isHidden": true }
+                ],
+                "starterCode": "function sum(a, b) {\n  // escreva sua solução\n}",
+                "timeLimitMs": 3000,
+                "memoryLimitMb": 128
+            }
+        }
+    ]
+}
+
+### ADMIN - Criar TRACK com CHALLENGES usando IA
+POST http://localhost:3333/admin/tracks/from-prompt HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "prompt": "Crie uma track de nível iniciante sobre arrays em JavaScript com 5 challenges. Inclua 3 challenges de múltipla escolha e 2 challenges de código com casos de teste."
+}
+
+### ADMIN - Criar CHALLENGE em uma TRACK existente
+POST http://localhost:3333/admin/challenges HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "tracksId": "f2fa86b0-fb5e-4ff8-b928-9c4af6220b97",
+    "name": "Inverter uma string",
+    "slug": "inverter-uma-string",
+    "description": "Crie uma função que inverta os caracteres de uma string.",
+    "points": 20,
+    "difficulty": "easy",
+    "type": "code",
+    "isCode": true,
+    "tips": ["Você pode usar split, reverse e join."],
+    "alternatives": [],
+    "code": "function reverseString(text) {\n  return text.split('').reverse().join('');\n}",
+    "language": "javascript",
+    "isActive": true,
+    "codeChallenge": {
+        "languageCode": "javascript",
+        "functionName": "reverseString",
+        "testCases": [
+            { "input": ["codequest"], "expectedOutput": "tseuqedoc" },
+            { "input": ["javascript"], "expectedOutput": "tpircsavaj", "isHidden": true }
+        ],
+        "starterCode": "function reverseString(text) {\n  // escreva sua solução\n}",
+        "timeLimitMs": 3000,
+        "memoryLimitMb": 128
+    }
+}
+
+### List all TRACKS 
+GET http://localhost:3333/tracks HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+### List one TRACKS 
+GET http://localhost:3333/challenges/javascript HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+### List all challenge by trackSlug 
+GET http://localhost:3333/challenges/list-one/test HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+### Complete challenge 
+POST http://localhost:3333/challenges/complete/test HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "trackId": "f2fa86b0-fb5e-4ff8-b928-9c4af6220b97",
+    "res": "Opção C"
+}
+
+
+### Complete challenge code
+POST http://localhost:3333/challenges/complete-code/test HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "code": "function sum(a, b) { return a + b + a }"
+}
+
+### List my information
+GET http://localhost:3333/my HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+
+
+### =========================
+### DUELS
+### =========================
+
+### List all DUELS 
+GET http://localhost:3333/duels HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+### List one DUELS 
+GET http://localhost:3333/duels/44879950-0d5e-4917-b4ae-09f55c464b9f HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+
+### Create DUELS 
+POST http://localhost:3333/duels HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "friendId": "0296eaf6-8e87-4690-a9b9-1cab9bb28bf0",
+    "difficulty": "medium",
+    "language": "javascript",
+    "totalChallenges": 3
+}
+
+
+### Refuse DUELS 
+POST http://localhost:3333/refuse-duels HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "duelsId": "<duel-id-to-refuse>"
+}
+
+
+### Accept DUELS 
+POST http://localhost:3333/accept-duels HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{
+    "duelsId": "<duel-id-to-accept>"
+}
+
+
+
+### complete one challenge duel
+POST http://localhost:3333/duels/complete-challenge HTTP/1.1
+content-type: application/json
+Cookie: refreshToken={{refreshToken}}; auth:accessToken={{accessToken}}
+
+{   
+    "duelsId": "44879950-0d5e-4917-b4ae-09f55c464b9f", 
+    "challengeSlug": "funcao-de-soma", 
+    "res": "function sum(a, b) { return a + b }"
+}
+
+
+
+
+

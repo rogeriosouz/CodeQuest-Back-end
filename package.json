@@ -1,0 +1,45 @@
+{
+   "name": "back-end",
+   "version": "1.0.0",
+   "description": "code-quest-api",
+   "main": "index.js",
+   "scripts": {
+      "build": "tsup src --out-dir build",
+      "start:build": "node build/server.js",
+      "start:dev": "tsx watch src/server.ts",
+      "start:dev-webhook-stripe": "stripe login && stripe listen --forward-to localhost:3333/webhook/stripe && stripe trigger payment_intent.succeeded",
+      "start:jobs": "tsx watch src/worker.ts",
+      "lint": "biome check .",
+      "lint:fix": "biome check . --write",
+      "format": "biome format . --write"
+   },
+   "author": "",
+   "license": "ISC",
+   "dependencies": {
+      "@fastify/cookie": "^11.0.2",
+      "@fastify/cors": "^11.2.0",
+      "@fastify/rate-limit": "^10.3.0",
+      "bcryptjs": "^3.0.3",
+      "bullmq": "^5.72.1",
+      "dotenv": "^17.3.1",
+      "drizzle-orm": "^0.45.2",
+      "fastify": "^5.8.4",
+      "ioredis": "^5.10.1",
+      "jsonwebtoken": "^9.0.3",
+      "nodemailer": "^8.0.4",
+      "pg": "^8.20.0",
+      "socket.io": "^4.8.3",
+      "tsup": "^8.5.1",
+      "zod": "^4.3.6"
+   },
+   "devDependencies": {
+      "@biomejs/biome": "^2.4.10",
+      "@types/jsonwebtoken": "^9.0.10",
+      "@types/node": "^25.5.0",
+      "@types/nodemailer": "^7.0.11",
+      "@types/pg": "^8.20.0",
+      "drizzle-kit": "^0.31.10",
+      "tsx": "^4.21.0",
+      "typescript": "^6.0.2"
+   }
+}

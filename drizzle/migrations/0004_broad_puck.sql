@@ -1,0 +1,1 @@
+ALTER TABLE "challenges" ADD COLUMN "difficulty" varchar(255) NOT NULL;
