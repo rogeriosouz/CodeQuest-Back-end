@@ -35,7 +35,7 @@ export class ForgotPasswordUseCase {
 
       await this.MailService.sendResetPassword({
          to: email,
-         link: `${env.FRONT_END_URL}/recovery-password/${tokenHash}`,
+         link: `${env.FRONT_END_URL}/auth/recovery-password?token=${tokenHash}`,
       });
    }
 }

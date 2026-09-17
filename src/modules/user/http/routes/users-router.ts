@@ -11,6 +11,7 @@ import { recoveryPassword } from "../controllers/recovery-password";
 import { refreshToken } from "../controllers/refresh-token";
 import { register } from "../controllers/register";
 import { signin } from "../controllers/signin";
+import { updatePassword } from "../controllers/update-password";
 import { updateUser } from "../controllers/update-user";
 import { updateUserAdmin } from "../controllers/update-user-admin";
 
@@ -33,6 +34,7 @@ export async function usersRouters(app: FastifyInstance) {
 
    // update user
    app.put("/profile", { preHandler: [authMiddleware] }, updateUser);
+   app.put("/password", { preHandler: [authMiddleware] }, updatePassword);
 
    await app.register(fastifyRateLimit, {
       max: 5,

@@ -183,6 +183,13 @@
       "when": 1787595966420,
       "tag": "0025_add_admin_to_users",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1789683034889,
+      "tag": "0026_plain_invaders",
+      "breakpoints": true
     }
   ]
 }

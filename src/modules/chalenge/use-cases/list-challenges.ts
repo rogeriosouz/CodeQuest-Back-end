@@ -19,6 +19,7 @@ export class ListChallengesUseCase {
          userId,
       });
 
+      console.log(isTrack);
       if (!isTrack) {
          throw new ResourceNotFoundError();
       }
